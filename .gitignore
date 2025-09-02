@@ -1,0 +1,46 @@
+# CAP indirectprocurement
+_out
+*.db
+*.sqlite
+connection.properties
+default-*.json
+.cdsrc-private.json
+gen/
+node_modules/
+target/
+core
+app/purchaseorderreq/dist
+resources/
+
+# Web IDE, App Studio
+.che/
+.gen/
+**/dist/
+*.zip
+**/*.zip
+**/*.mtar
+
+
+# MTA
+*_mta_build_tmp
+*.mtar
+mta_archives/
+
+# Other
+.DS_Store
+*.orig
+*.log
+
+*.iml
+*.flattened-pom.xml
+
+# IDEs
+.vscode/settings.json
+# .idea
+
+# @cap-js/cds-typer
+@cds-models
+package-lock.json
+
+# auto generated wildcard
+db/.env
