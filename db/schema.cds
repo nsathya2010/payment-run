@@ -17,7 +17,9 @@ entity Jobs : cuid, managed {
 }
 
 entity OpenItems : cuid, managed {
-  Job : Association to Jobs;
+  Vendor   : String;
+  Quantity : Integer;
+  Job      : Association to Jobs;
 }
 
 entity JobStatusText {

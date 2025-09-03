@@ -9,6 +9,7 @@
         "@cap-js/hana": "^2",
         "@sap/cds": "^9",
         "@sap/xssec": "^4",
+        "cds-numberrange-plugin": "^1.0.1",
         "express": "^4"
     },
     "engines": {
@@ -32,14 +33,29 @@
     },
     "cds": {
         "requires": {
-            "[production]": {
-                "auth": "xsuaa"
-            },
-            "connectivity": true,
-            "destinations": true
+            "auth": {
+                "[hybrid]": {
+                    "kind": "dummy"
+                }
+            }
         }
     },
     "imports": {
         "#cds-models/*": "./@cds-models/*/index.js"
+    },
+    "cds-numberrange-plugin": {
+        "ranges": [
+            {
+                "name": "JobNumber",
+                "start": 1,
+                "increment": 1,
+                "createOnDraft": true,
+                "additionalProperties": {
+                    "prefix": "JOB",
+                    "padCount": 9,
+                    "padValue": "0"
+                }
+            }
+        ]
     }
 }

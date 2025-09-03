@@ -47,6 +47,15 @@ resources:
           config:
               xsappname: pmr-${org}-${space}
               tenant-mode: dedicated
+              role-collections:
+                  - name: 'User (payment-run ${org}-${space})'
+                    description: 'generated'
+                    role-template-references:
+                        - '$XSAPPNAME.User'
+                  - name: 'JOBSCHEDULER (payment-run ${org}-${space})'
+                    description: 'generated'
+                    role-template-references:
+                        - '$XSAPPNAME.JOBSCHEDULER'
     - name: pmr-db
       type: com.sap.xs.hdi-container
       parameters:
