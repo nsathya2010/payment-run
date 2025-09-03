@@ -3,81 +3,81 @@ ID: pmr
 version: 1.0.0
 description: 'Payment Run Automation'
 parameters:
-    enable-parallel-deployments: true
+  enable-parallel-deployments: true
 build-parameters:
-    before-all:
-        - builder: custom
-          commands:
-              - npm ci
-              - npx cds build --production
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
 modules:
-    - name: pmr-srv
-      type: nodejs
-      path: gen/srv
-      parameters:
-          instances: 1
-          buildpack: nodejs_buildpack
-      build-parameters:
-          builder: npm-ci
-      provides:
-          - name: pmr-api # required by consumers of CAP services (e.g. approuter)
-            properties:
-                srv-url: ${default-url}
-      requires:
-          - name: pmr-auth
-          - name: pmr-db
-          - name: pmr-conn
-          - name: pmr-dest
+  - name: pmr-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: pmr-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: pmr-auth
+      - name: pmr-db
+      - name: pmr-conn
+      - name: pmr-dest
 
-    - name: pmr-db-deployer
-      type: hdb
-      path: gen/db
-      parameters:
-          buildpack: nodejs_buildpack
-      requires:
-          - name: pmr-db
+  - name: pmr-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: pmr-db
 
 resources:
-    - name: pmr-auth
-      type: org.cloudfoundry.managed-service
-      parameters:
-          service: xsuaa
-          service-plan: application
-          path: ./xs-security.json
-          config:
-              xsappname: pmr-${org}-${space}
-              tenant-mode: dedicated
-              role-collections:
-                  - name: 'User (payment-run ${org}-${space})'
-                    description: 'generated'
-                    role-template-references:
-                        - '$XSAPPNAME.User'
-                  - name: 'JOBSCHEDULER (payment-run ${org}-${space})'
-                    description: 'generated'
-                    role-template-references:
-                        - '$XSAPPNAME.JOBSCHEDULER'
-    - name: pmr-db
-      type: com.sap.xs.hdi-container
-      parameters:
-          service: hana
-          service-plan: hdi-shared
-    - name: pmr-job
-      type: org.cloudfoundry.managed-service
-      parameters:
-          config:
-              enable-xsuaa-support: true
-          service: jobscheduler
-          service-key:
-              -name: pmr-job-key
-          service-name: pmr-job
-          service-plan: standard
-    - name: pmr-conn
-      type: org.cloudfoundry.managed-service
-      parameters:
-          service: connectivity
-          service-plan: lite
-    - name: pmr-dest
-      type: org.cloudfoundry.managed-service
-      parameters:
-          service: destination
-          service-plan: lite
+  - name: pmr-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: pmr-${org}-${space}
+        tenant-mode: dedicated
+        role-collections:
+          - name: 'User (payment-run ${org}-${space})'
+            description: 'generated'
+            role-template-references:
+              - '$XSAPPNAME.User'
+          - name: 'JOBSCHEDULER (payment-run ${org}-${space})'
+            description: 'generated'
+            role-template-references:
+              - '$XSAPPNAME.JOBSCHEDULER'
+  - name: pmr-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: pmr-job
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        enable-xsuaa-support: true
+      service: jobscheduler
+      service-key:
+        -name: pmr-job-key
+      service-name: pmr-job
+      service-plan: standard
+  - name: pmr-conn
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: connectivity
+      service-plan: lite
+  - name: pmr-dest
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite

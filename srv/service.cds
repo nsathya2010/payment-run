@@ -12,12 +12,18 @@ service PaymentRunService @(
   }
   entity Jobs          as projection on db.Jobs;
 
-  @Capabilities: {
+      @Capabilities: {
     InsertRestrictions.Insertable: false,
     UpdateRestrictions.Updatable : true,
     DeleteRestrictions.Deletable : false
   }
-  entity OpenItems     as projection on db.OpenItems;
+  entity OpenItems     as projection on db.OpenItems
+    actions {
+      @cds.odata.bindingparameter.collection
+      action Reversal() returns Boolean;
+      action Clear()    returns Boolean;
+      action Change()   returns Boolean;
+    }
 
   @readonly
   entity JobStatusText as projection on db.JobStatusText;
