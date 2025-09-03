@@ -1,83 +1,165 @@
 _schema-version: 3.3.0
 ID: pmr
+description: Payment Run Automation
 version: 1.0.0
-description: 'Payment Run Automation'
+modules:
+- name: pmr-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: pmr-auth
+  - name: pmr-db
+  - name: pmr-conn
+  - name: pmr-dest
+  provides:
+  - name: pmr-api
+    properties:
+      srv-url: ${default-url}
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    instances: 1
+  build-parameters:
+    builder: npm-ci
+- name: pmr-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: pmr-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: pmr-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: pmr-dest
+    parameters:
+      content-target: true
+  - name: pmr_html_repo_host
+    parameters:
+      service-key:
+        name: pmr_html_repo_host-key
+  - name: pmr-auth
+    parameters:
+      service-key:
+        name: pmr-auth-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: payment_run_pmr_html_repo_host
+          ServiceInstanceName: pmr-html5-app-host-service
+          ServiceKeyName: pmr_html_repo_host-key
+          sap.cloud.service: payment-run
+        - Authentication: OAuth2UserTokenExchange
+          Name: payment_run_pmr_auth
+          ServiceInstanceName: pmr-auth
+          ServiceKeyName: pmr-auth-key
+          sap.cloud.service: payment-run
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: pmr-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: pmr_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - paymentrun.zip
+      name: paymentrun
+      target-path: resources/
+- name: paymentrun
+  type: html5
+  path: app/paymentrun
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: pmr-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      role-collections:
+      - description: generated
+        name: User (payment-run ${org}-${space})
+        role-template-references:
+        - $XSAPPNAME.User
+      - description: generated
+        name: JOBSCHEDULER (payment-run ${org}-${space})
+        role-template-references:
+        - $XSAPPNAME.JOBSCHEDULER
+      tenant-mode: dedicated
+      xsappname: pmr-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+- name: pmr-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: pmr-job
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      enable-xsuaa-support: true
+    service: jobscheduler
+    service-key:
+      -name: pmr-job-key
+    service-name: pmr-job
+    service-plan: standard
+- name: pmr-conn
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: connectivity
+    service-plan: lite
+- name: pmr-dest
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          existing_destinations_policy: update
+    service: destination
+    service-plan: lite
+  requires:
+  - name: srv-api
+- name: pmr_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: pmr-html5-app-host-service
+    service-plan: app-host
 parameters:
+  deploy_mode: html5-repo
   enable-parallel-deployments: true
 build-parameters:
   before-all:
-    - builder: custom
-      commands:
-        - npm ci
-        - npx cds build --production
-modules:
-  - name: pmr-srv
-    type: nodejs
-    path: gen/srv
-    parameters:
-      instances: 1
-      buildpack: nodejs_buildpack
-    build-parameters:
-      builder: npm-ci
-    provides:
-      - name: pmr-api # required by consumers of CAP services (e.g. approuter)
-        properties:
-          srv-url: ${default-url}
-    requires:
-      - name: pmr-auth
-      - name: pmr-db
-      - name: pmr-conn
-      - name: pmr-dest
-
-  - name: pmr-db-deployer
-    type: hdb
-    path: gen/db
-    parameters:
-      buildpack: nodejs_buildpack
-    requires:
-      - name: pmr-db
-
-resources:
-  - name: pmr-auth
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: xsuaa
-      service-plan: application
-      path: ./xs-security.json
-      config:
-        xsappname: pmr-${org}-${space}
-        tenant-mode: dedicated
-        role-collections:
-          - name: 'User (payment-run ${org}-${space})'
-            description: 'generated'
-            role-template-references:
-              - '$XSAPPNAME.User'
-          - name: 'JOBSCHEDULER (payment-run ${org}-${space})'
-            description: 'generated'
-            role-template-references:
-              - '$XSAPPNAME.JOBSCHEDULER'
-  - name: pmr-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
-  - name: pmr-job
-    type: org.cloudfoundry.managed-service
-    parameters:
-      config:
-        enable-xsuaa-support: true
-      service: jobscheduler
-      service-key:
-        -name: pmr-job-key
-      service-name: pmr-job
-      service-plan: standard
-  - name: pmr-conn
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: connectivity
-      service-plan: lite
-  - name: pmr-dest
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: destination
-      service-plan: lite
+  - builder: custom
+    commands:
+    - npm ci
+    - npx cds build --production

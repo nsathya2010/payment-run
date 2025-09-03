@@ -1,32 +1,20 @@
 {
-    "xsappname": "PMR",
-    "tenant-mode": "dedicated",
-    "scopes": [
-        {
-            "name": "$XSAPPNAME.User",
-            "description": "View scope for User"
-        },
-        {
-            "name": "$XSAPPNAME.JOBSCHEDULER",
-            "description": "Job Scheduling Scope",
-            "grant-as-authority-to-apps": ["$XSSERVICENAME(pmr-job)"]
-        },
-        {
-            "name": "uaa.user",
-            "description": "UAA"
-        }
-    ],
-    "attributes": [],
-    "role-templates": [],
-    "role-collections": [],
-    "oauth2-configuration": {
-        "redirect-uris": [
-            "https://*.applicationstudio.cloud.sap/**",
-            "https://*.authentication.eu20.hana.ondemand.com/**",
-            "https://*.siemens.com/**",
-            "https://*.hana.ondemand.com/**",
-            "http://localhost:*/**"
-        ]
-    },
-    "authorities-inheritance": false
+  "xsappname": "pmr",
+  "tenant-mode": "dedicated",
+  "description": "Security profile of called application",
+  "scopes": [
+    {
+      "name": "uaa.user",
+      "description": "UAA"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Token_Exchange",
+      "description": "UAA",
+      "scope-references": [
+        "uaa.user"
+      ]
+    }
+  ]
 }
