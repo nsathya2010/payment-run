@@ -19,7 +19,6 @@ service PaymentRunService @(
   }
   entity OpenItems     as projection on db.OpenItems
     actions {
-      @cds.odata.bindingparameter.collection
       action Reversal() returns Boolean;
       action Clear()    returns Boolean;
       action Change()   returns Boolean;
