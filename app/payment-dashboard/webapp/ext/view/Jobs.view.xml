@@ -2,5 +2,6 @@
     <Page id="Jobs" title="{i18n&gt;JobsTitle}">
         <content/>
         <macros:FilterBar id="FilterJobs" metaPath="/Jobs/@com.sap.vocabularies.UI.v1.SelectionFields#filterBarMacro1"/>
+        <macros:Table id="Table" metaPath="/Jobs/@com.sap.vocabularies.UI.v1.LineItem#tableMacro1" filterBar="FilterJobs" header="Jobs"isSearchable="true"/>
     </Page>
 </mvc:View>

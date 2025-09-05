@@ -1,0 +1,7 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:macros="sap.fe.macros" xmlns:html="http://www.w3.org/1999/xhtml" controllerName="paymentdashboard.ext.view.JobsItems">
+    <Page id="JobsItems" title="{i18n&gt;JobsItemsTitle}">
+        <content/>
+        <macros:FilterBar id="FilterItems" metaPath="_Items/@com.sap.vocabularies.UI.v1.SelectionFields#filterBarMacro"/>
+        <macros:Table id="Table" metaPath="_Items/@com.sap.vocabularies.UI.v1.LineItem#tableMacro" filterBar="FilterItems"/>
+    </Page>
+</mvc:View>

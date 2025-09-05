@@ -64,7 +64,8 @@
                 "sap.m": {},
                 "sap.ui.core": {},
                 "sap.fe.core": {},
-                "sap.fe.macros": {}
+                "sap.fe.macros": {},
+                "sap.f": {}
             }
         },
         "contentDensities": {
@@ -96,12 +97,28 @@
             "css": []
         },
         "routing": {
-            "config": {},
+            "config": {
+                "flexibleColumnLayout": {
+                    "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                    "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+                },
+                "routerClass": "sap.f.routing.Router"
+            },
             "routes": [
                 {
                     "name": "JobsJobsPage",
                     "pattern": ":?query:",
-                    "target": "JobsJobsPage"
+                    "target": [
+                        "JobsJobsPage"
+                    ]
+                },
+                {
+                    "name": "JobsJobsItemsPage",
+                    "pattern": "Jobs({JobsKey}):?query:",
+                    "target": [
+                        "JobsJobsPage",
+                        "JobsJobsItemsPage"
+                    ]
                 }
             ],
             "targets": {
@@ -111,13 +128,41 @@
                     "name": "sap.fe.core.fpm",
                     "options": {
                         "settings": {
-                            "navigation": {},
+                            "navigation": {
+                                "Jobs": {
+                                    "detail": {
+                                        "route": "JobsJobsItemsPage"
+                                    }
+                                }
+                            },
                             "contextPath": "/Jobs",
                             "viewName": "paymentdashboard.ext.view.Jobs"
                         }
-                    }
+                    },
+                    "controlAggregation": "beginColumnPages",
+                    "contextPattern": ""
+                },
+                "JobsJobsItemsPage": {
+                    "type": "Component",
+                    "id": "JobsJobsItemsPage",
+                    "name": "sap.fe.core.fpm",
+                    "options": {
+                        "settings": {
+                            "navigation": {},
+                            "contextPath": "/Jobs",
+                            "viewName": "paymentdashboard.ext.view.JobsItems"
+                        }
+                    },
+                    "controlAggregation": "midColumnPages",
+                    "contextPattern": "/Jobs({JobsKey})"
                 }
             }
+        },
+        "rootView": {
+            "viewName": "sap.fe.templates.RootContainer.view.Fcl",
+            "type": "XML",
+            "async": true,
+            "id": "appRootView"
         }
     },
     "sap.cloud": {
