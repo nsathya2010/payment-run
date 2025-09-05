@@ -7,7 +7,11 @@
     controllerName="paymentdashboard.ext.main.Main"
 >
     <macros:Page id="Page" title="Jobs">
-        <macros:FilterBar id="JobsFilter" metaPath="/Jobs/@com.sap.vocabularies.UI.v1.SelectionFields#filterBarMacro" liveMode="true" />
+        <macros:FilterBar
+            id="JobsFilter"
+            metaPath="/Jobs/@com.sap.vocabularies.UI.v1.SelectionFields#filterBarMacro"
+            liveMode="true"
+        />
         <macros:Table
             id="TableJobs"
             metaPath="/Jobs/@com.sap.vocabularies.UI.v1.LineItem#tableMacro"
