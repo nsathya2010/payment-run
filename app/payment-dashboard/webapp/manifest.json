@@ -107,17 +107,12 @@
                 {
                     "name": "JobsMain",
                     "pattern": ":?query:",
-                    "target": [
-                        "JobsMain"
-                    ]
+                    "target": ["JobsMain"]
                 },
                 {
                     "name": "JobsJobDetailsPage",
                     "pattern": "Jobs({JobsKey}):?query:",
-                    "target": [
-                        "JobsMain",
-                        "JobsJobDetailsPage"
-                    ]
+                    "target": ["JobsMain", "JobsJobDetailsPage"]
                 }
             ],
             "targets": {

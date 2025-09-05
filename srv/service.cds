@@ -12,7 +12,7 @@ service PaymentRunService @(
   }
   entity Jobs          as projection on db.Jobs;
 
-      @Capabilities: {
+  @Capabilities: {
     InsertRestrictions.Insertable: false,
     UpdateRestrictions.Updatable : true,
     DeleteRestrictions.Deletable : false
