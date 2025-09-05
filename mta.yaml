@@ -71,12 +71,12 @@ modules:
           build-result: resources
           requires:
               - artifacts:
-                    - paymentrun.zip
-                name: paymentrun
+                    - paymentdashboard.zip
+                name: paymentdashboard
                 target-path: resources/
-    - name: paymentrun
+    - name: paymentdashboard
       type: html5
-      path: app/paymentrun
+      path: app/payment-dashboard
       build-parameters:
           build-result: dist
           builder: custom

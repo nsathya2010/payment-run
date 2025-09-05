@@ -36,7 +36,8 @@
         "watch-paymentrun": "cds watch --open paymentrun/index.html?sap-ui-xx-viewCache=false --livereload false",
         "undeploy": "cf undeploy pmr --delete-services --delete-service-keys --delete-service-brokers",
         "build": "rimraf resources mta_archives && mbt build --mtar archive",
-        "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+        "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+        "watch-payment-dashboard": "cds watch --open paymentdashboard/index.html?sap-ui-xx-viewCache=false --livereload false"
     },
     "cds": {
         "requires": {
@@ -69,6 +70,7 @@
         "app/*"
     ],
     "sapux": [
-        "app/paymentrun"
+        "app/paymentrun",
+        "app/payment-dashboard"
     ]
 }
