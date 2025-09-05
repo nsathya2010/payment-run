@@ -2,7 +2,7 @@
 
 |                                                                                                |
 | ---------------------------------------------------------------------------------------------- |
-| **Generation Date and Time**<br>Fri Sep 05 2025 05:59:59 GMT+0000 (Coordinated Universal Time) |
+| **Generation Date and Time**<br>Fri Sep 05 2025 07:32:43 GMT+0000 (Coordinated Universal Time) |
 | **App Generator**<br>SAP Fiori Application Generator                                           |
 | **App Generator Version**<br>1.18.6                                                            |
 | **Generation Platform**<br>SAP Business Application Studio                                     |
@@ -10,7 +10,7 @@
 | **Service Type**<br>Local CAP                                                                  |
 | **Service URL**<br>http://localhost:4004/odata/v4/PaymentRunService/                           |
 | **Module Name**<br>payment-dashboard                                                           |
-| **Application Title**<br>Payment Dashboard                                                     |
+| **Application Title**<br>Payment Run                                                           |
 | **Namespace**<br>                                                                              |
 | **UI5 Theme**<br>sap_horizon                                                                   |
 | **UI5 Version**<br>1.140.0                                                                     |
@@ -21,7 +21,7 @@
 
 ## payment-dashboard
 
-An SAP Fiori application.
+Payment Run
 
 ### Starting the generated app
 

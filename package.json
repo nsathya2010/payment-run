@@ -71,6 +71,7 @@
     ],
     "sapux": [
         "app/paymentrun",
+        "app/payment-dashboard",
         "app/payment-dashboard"
     ]
 }

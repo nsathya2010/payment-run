@@ -12,35 +12,7 @@ annotate service.Jobs with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : createdAt,
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : modifiedAt,
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : Title,
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : _StatusText.Text,
-            Label : 'Status',
-        },
-    ],
-    UI.SelectionFields #filterBarMacro1 : [
-        Job,
-        Status,
-        Title,
-    ],
-    UI.LineItem #tableMacro1 : [
-        {
-            $Type : 'UI.DataField',
-            Value : Job,
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : Title,
+            Value : createdBy,
         },
         {
             $Type : 'UI.DataField',
@@ -49,10 +21,18 @@ annotate service.Jobs with @(
         {
             $Type : 'UI.DataField',
             Value : modifiedAt,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : modifiedBy,
         },
         {
             $Type : 'UI.DataField',
             Value : Status,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : Title,
         },
     ],
 );
@@ -73,6 +53,7 @@ annotate service.OpenItems with @(
     UI.SelectionFields #filterBarMacro : [
         Vendor,
         Quantity,
+        CriticalityIndicator,
     ],
     UI.LineItem #tableMacro : [
         {
@@ -85,7 +66,7 @@ annotate service.OpenItems with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : modifiedBy,
+            Value : createdAt,
         },
         {
             $Type : 'UI.DataField',
@@ -93,27 +74,7 @@ annotate service.OpenItems with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : createdAt,
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : CriticalityIndicator,
-            Label : 'CriticalityIndicator',
-        },
-        {
-            $Type : 'UI.DataFieldForAction',
-            Action : 'PaymentRunService.Reversal',
-            Label : 'Reversal',
-        },
-        {
-            $Type : 'UI.DataFieldForAction',
-            Action : 'PaymentRunService.Clear',
-            Label : 'Clear',
-        },
-        {
-            $Type : 'UI.DataFieldForAction',
-            Action : 'PaymentRunService.Change',
-            Label : 'Change',
+            Value : modifiedBy,
         },
     ],
 );
@@ -124,5 +85,9 @@ annotate service.OpenItems with {
 
 annotate service.OpenItems with {
     Quantity @Common.Label : 'Quantity'
+};
+
+annotate service.OpenItems with {
+    CriticalityIndicator @Common.Label : 'CriticalityIndicator'
 };
 
