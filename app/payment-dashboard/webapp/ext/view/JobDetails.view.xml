@@ -13,10 +13,11 @@
                 metaPath="_Items/@com.sap.vocabularies.UI.v1.SelectionFields#filterBarMacro"
             />
             <macros:Table
-                id="Table"
+                id="ItemsTable"
                 metaPath="_Items/@com.sap.vocabularies.UI.v1.LineItem#tableMacro"
                 filterBar="ItemsFilter"
                 header="Job Items"
+                readOnly="false"
             />
         </content>
     </Page>

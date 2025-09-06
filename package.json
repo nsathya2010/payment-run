@@ -47,6 +47,9 @@
                     "kind": "dummy"
                 }
             }
+        },
+        "fiori": {
+            "bypass_draft": true
         }
     },
     "imports": {

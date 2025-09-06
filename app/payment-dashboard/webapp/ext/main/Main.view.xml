@@ -18,6 +18,7 @@
             filterBar="JobsFilter"
             header="Jobs"
             isSearchable="true"
+            readOnly="true"
         />
     </macros:Page>
 </mvc:View>

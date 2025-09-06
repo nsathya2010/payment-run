@@ -1,4 +1,4 @@
-namespace com.danfoss.pmr.db;
+namespace com.pmr.db;
 
 using {
   cuid,
@@ -7,7 +7,10 @@ using {
 
 
 entity Jobs : cuid, managed {
+  // @Common.FieldControl: #ReadOnly
   Job         : Integer;
+
+  // @Common.FieldControl: #ReadOnly
   Title       : String;
   Status      : JobStatus;
   _StatusText : Association to one JobStatusText
@@ -20,6 +23,9 @@ entity OpenItems : cuid, managed {
   Vendor               : String;
   Quantity             : Integer;
   CriticalityIndicator : Integer;
+  PerformReversal      : Boolean;
+  PerformClear         : Boolean;
+  PerformChange        : Boolean;
   Job                  : Association to Jobs;
 }
 

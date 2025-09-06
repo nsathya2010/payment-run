@@ -23,9 +23,11 @@ sap.ui.define(['sap/fe/core/PageController'], function (PageController) {
          * This hook is the same one that SAPUI5 controls get after being rendered.
          * @memberOf paymentdashboard.ext.view.JobDetails
          */
-        //  onAfterRendering: function() {
-        //
-        //  },
+        onAfterRendering: function () {
+
+            this.getModel("ui").setProperty("/isEditable", true);
+
+        },
         /**
          * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
          * @memberOf paymentdashboard.ext.view.JobDetails
