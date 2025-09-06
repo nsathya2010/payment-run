@@ -27,6 +27,8 @@ sap.ui.define(['sap/fe/core/PageController'], function (PageController) {
 
             this.getModel("ui").setProperty("/isEditable", true);
 
+            this.getView().byId("paymentdashboard::JobsJobDetailsPage--ItemsFilter-content-btnSearch").firePress()
+
         },
         /**
          * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
